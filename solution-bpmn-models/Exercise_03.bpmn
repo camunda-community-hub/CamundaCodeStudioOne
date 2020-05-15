@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" id="Definitions_0fr9mxs" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="3.7.3">
+  <bpmn:process id="code-studio-process" isExecutable="true">
+    <bpmn:startEvent id="StartEvent_1" name="Strawberries need to be watered">
+      <bpmn:outgoing>SequenceFlow_1fp17al</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="SequenceFlow_1fp17al" sourceRef="StartEvent_1" targetRef="Activity_1mi9itq" />
+    <bpmn:endEvent id="EndEvent_0x6ir2l" name="Your strawberries are happy">
+      <bpmn:incoming>SequenceFlow_16gzt2m</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="SequenceFlow_16gzt2m" sourceRef="say-hello" targetRef="EndEvent_0x6ir2l" />
+    <bpmn:userTask id="say-hello" name="Try to eat a strawberry!">
+      <bpmn:incoming>Flow_07jcun5</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_16gzt2m</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:serviceTask id="Activity_1mi9itq" name="Check if water was enough" camunda:delegateExpression="#{waterChecker}">
+      <bpmn:incoming>SequenceFlow_1fp17al</bpmn:incoming>
+      <bpmn:outgoing>Flow_0y2ak32</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="Flow_0y2ak32" sourceRef="Activity_1mi9itq" targetRef="Gateway_1e5pg59" />
+    <bpmn:exclusiveGateway id="Gateway_1e5pg59" name="Did you give it enough water">
+      <bpmn:incoming>Flow_0y2ak32</bpmn:incoming>
+      <bpmn:outgoing>Flow_07jcun5</bpmn:outgoing>
+      <bpmn:outgoing>Flow_1ooqxuz</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="Flow_07jcun5" name="Yes" sourceRef="Gateway_1e5pg59" targetRef="say-hello" />
+    <bpmn:sequenceFlow id="Flow_1ooqxuz" name="No" sourceRef="Gateway_1e5pg59" targetRef="Activity_1lnlqsg" />
+    <bpmn:endEvent id="Event_1hss4iw" name="Your strawberries are going to die">
+      <bpmn:incoming>Flow_0u34s0i</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_0u34s0i" sourceRef="Activity_1lnlqsg" targetRef="Event_1hss4iw" />
+    <bpmn:userTask id="Activity_1lnlqsg" name="Go buy some strawberries">
+      <bpmn:incoming>Flow_1ooqxuz</bpmn:incoming>
+      <bpmn:outgoing>Flow_0u34s0i</bpmn:outgoing>
+    </bpmn:userTask>
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="code-studio-process">
+      <bpmndi:BPMNEdge id="Flow_0y2ak32_di" bpmnElement="Flow_0y2ak32">
+        <di:waypoint x="380" y="117" />
+        <di:waypoint x="445" y="117" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_16gzt2m_di" bpmnElement="SequenceFlow_16gzt2m">
+        <di:waypoint x="670" y="117" />
+        <di:waypoint x="742" y="117" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_1fp17al_di" bpmnElement="SequenceFlow_1fp17al">
+        <di:waypoint x="215" y="117" />
+        <di:waypoint x="280" y="117" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_07jcun5_di" bpmnElement="Flow_07jcun5">
+        <di:waypoint x="495" y="117" />
+        <di:waypoint x="570" y="117" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="524" y="99" width="18" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1ooqxuz_di" bpmnElement="Flow_1ooqxuz">
+        <di:waypoint x="470" y="142" />
+        <di:waypoint x="470" y="230" />
+        <di:waypoint x="570" y="230" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="512" y="203" width="15" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0u34s0i_di" bpmnElement="Flow_0u34s0i">
+        <di:waypoint x="670" y="230" />
+        <di:waypoint x="742" y="230" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
+        <dc:Bounds x="179" y="99" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="153" y="142" width="90" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0v6g50s_di" bpmnElement="Activity_1mi9itq">
+        <dc:Bounds x="280" y="77" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="EndEvent_0x6ir2l_di" bpmnElement="EndEvent_0x6ir2l">
+        <dc:Bounds x="742" y="99" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="718" y="142" width="85" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="UserTask_08mft2c_di" bpmnElement="say-hello">
+        <dc:Bounds x="570" y="77" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_1e5pg59_di" bpmnElement="Gateway_1e5pg59" isMarkerVisible="true">
+        <dc:Bounds x="445" y="92" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="435" y="62" width="71" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0gvoddz_di" bpmnElement="Activity_1lnlqsg">
+        <dc:Bounds x="570" y="190" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1hss4iw_di" bpmnElement="Event_1hss4iw">
+        <dc:Bounds x="742" y="212" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="718" y="255" width="85" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>
