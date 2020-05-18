@@ -163,7 +163,7 @@ Now we need to implement the technical details for the new version of the model.
 
 Each sequence flow will be evaluating the same variable ``waterSuccess`` if it's true we want to try our strawberries if it's false we'll want to head out and buy more strawberries.
 
-Selecting the ``Yes`` sequence flow well let you add an expression. That expression should be 
+Selecting the ``Yes`` sequence flow well let you add an expression. That expression should be
 ```
 #{waterSuccess}
 ```
@@ -182,3 +182,40 @@ Restrating your spring boot applicatoin will create a new veresion of the model 
 
 
 **:tada: Congrats now your process can be routed depending the data you get**
+
+## Exercise 4: Adding BPMN events to you process
+:trophy: Trigger and Catch a BPMN Error event which will ensure that we water our strawberries too much.
+
+To do this we need to check the amount of water and decided if we should throw an error or not. The error will be then need to be caught by the model. So first things first. I'm going ot add an error event to my model as well as a user task.
+
+![Process with Error](./img/model-with-error-event.png)
+
+The error event needs to  expect a specific Error Code. This can be added via the modeler.
+
+1. After selecting the error event click the plus button to create the error object.
+1. Then enter ``TooMuchWater`` as both the Error Name and Error Code.
+1. Finally add ``WaterError`` as the Error Message Variable.
+
+
+![Error Event details](./img/error-event-details.png)
+
+Now that the model is read to each an error with the code ``TooMuchWater`` i'm going to need to throw the Error event from my code. I can do this by going back to my ``WaterChecker.java`` class and making a small change to the code. If the water is more than 2 inches i want to throw an error.
+
+```Java
+
+if(inchesOfWater > 2){
+    throw new BpmnError("TooMuchWater", "Add Less water or the Strawberries will die!");
+}
+else if(inchesOfWater == 2){
+    strawberryStatus = "You've added the right amount of water";
+    delegateExecution.setVariable("waterSuccess", true);
+}else{
+    strawberryStatus = "it's not looking good for your strawberries";
+    delegateExecution.setVariable("waterSuccess", false);
+}
+
+```
+After making this change, it's time to re-launch the application and once again start a new instance. this time the variable ``inchesOfWater`` should be ``3``. in this case once we start the instance we should be brought to the ``Enter new amount of water`` user task. Claim the task and then load the variables in order to see and changes the inches of water. You should also be able to see the erorr message that was added via the Java class.
+Change the variable and complete the task to finish the excersise.
+
+**:tada: Congrats you've triggered an error event!**
