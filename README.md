@@ -1,6 +1,13 @@
 # Camunda Code Studio
 Welcome to Camunda's Code studio. These exercises has been designed for an online course. But you can follow the exercises here without attending the online event - just imagine that you hear Niall talking to you. The readme contains the detailed instruction on how to complete the exercises.  In the other folders you find the model solutions as well as the full code solutions. The presentation from the workshop is provided as well.
 
+The goal of this workshop is for me to teach the world what i have learned from my short time growing strawberries. I'll of course be doing this through the magic of Camunda and BPMN. I'll go going through 4 objectives
+
+1. Create your camunda project
+1. Model and execute process
+1. Route your process
+1. Add BPMN Events to your process 
+
 
 To make that an even better learning experience Pull request are very welcome!
 
@@ -219,3 +226,7 @@ After making this change, it's time to re-launch the application and once again 
 Change the variable and complete the task to finish the excersise.
 
 **:tada: Congrats you've triggered an error event!**
+
+## Enjoy your strawberries
+
+![Strawberries](./img/strawberries.jpg)
