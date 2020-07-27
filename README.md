@@ -1,4 +1,5 @@
 # Camunda Code Studio
+
 Welcome to Camunda's Code studio. These exercises has been designed for an online course. But you can follow the exercises here without attending the online event - just imagine that you hear Niall talking to you. The readme contains the detailed instruction on how to complete the exercises.  In the other folders you find the model solutions as well as the full code solutions. The presentation from the workshop is provided as well.
 
 The goal of this workshop is for me to teach the world what i have learned from my short time growing strawberries. I'll of course be doing this through the magic of Camunda and BPMN. I'll go going through 4 objectives
@@ -6,7 +7,7 @@ The goal of this workshop is for me to teach the world what i have learned from 
 1. Create your camunda project
 1. Model and execute process
 1. Route your process
-1. Add BPMN Events to your process 
+1. Add BPMN Events to your process
 
 
 To make that an even better learning experience Pull request are very welcome!
@@ -226,6 +227,76 @@ After making this change, it's time to re-launch the application and once again 
 Change the variable and complete the task to finish the excersise.
 
 **:tada: Congrats you've triggered an error event!**
+
+## Exercise 5: Adding An External Task to your process
+:trophy: Create an external worker which runs independently and is triggered to run by the process.
+
+Right now everything we've done has been contained within the same spring boot project but now we're going to create an `External Worker`. This is a little bit of JavaScript code which runs on it's own and subscribes to a `Topic` which is defined in our process model as an `External Service Task`. We call this the external task pattern. The diagram below explains the principle.
+
+![External Task](https://docs.camunda.org/manual/7.7/user-guide/process-engine/img/external-task-pattern.png)
+
+First we need to add a new service task to our model. We're going to use a parallel gateway so that we can both Tweet about our strawberries while we water them.
+![TweetServiceTask](./img/TweetServiceTask.png)
+
+When implementing this service task, we're not going to call a bean. Instead we're going to select `External Task` from the implementation dropdown and then enter ``SendTweet`` in the `Topic` field.
+
+![sendtweetProp](./img/send-tweet-properties.png)
+
+You can restart your project now and the new version of the process should be deployed - then you can start a new instance just as you have before from `tasklist`
+If all goes according to plan you should see a token waiting on the tweet Task in `Cockpit`.
+
+![tweet-token](./img/token-on-tweet.png)
+
+Now it's time to actually build the external worker itself. I'm going to using the [Camunda JavaScript External Task Client](https://github.com/camunda/camunda-external-task-client-js) for this example so you'll need to [install npm](https://www.npmjs.com/get-npm) if you'd like to do this part. 
+
+Create a new directory in your project ``TweetWorker`` and then open a console window in that folder and enter the following:
+
+```
+ npm install -s camunda-external-task-client-js
+ ```
+That should have created a ``node_modules`` folder.
+Now we're ready to actually build the worker. So create a new file TweetWorker.js
+In that file drop the following Java Script code
+
+
+```JavaScript
+
+const { Client, logger } = require("camunda-external-task-client-js");
+
+// configuration for the Client:
+//  - 'baseUrl': url to the Workflow Engine
+//  - 'logger': utility to automatically log important events
+const config = { baseUrl: "http://localhost:8080/engine-rest", use: logger, asyncResponseTimeout: 5000, workerId: "Justinian" };
+
+// create a Client instance with custom configuration
+const client = new Client(config);
+
+// susbscribe to the topic: 'SendTweet'
+client.subscribe("SendTweet", async function({ task, taskService }) {
+  // Put your business logic
+  console.log('Watering my strawberries - its great!');
+  // complete the task
+  await taskService.complete(task);
+});
+
+```
+
+Now save the fine, return to the console window and to start the worker entered
+
+``
+node TweetWorker.js
+``
+
+If all goes according to plan you should be able to see that the worker has locked and complete the task and the process has moved on.
+
+![Tweet-console](./img/tweet-console.png)
+
+
+**:tada: Congrats you've got yourself an external task running**
+
+## Exercise 6: Throwing an Error Event from an External Task
+
+We all know that if you
 
 ## Enjoy your strawberries
 
