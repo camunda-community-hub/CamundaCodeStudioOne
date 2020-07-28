@@ -247,7 +247,7 @@ If all goes according to plan you should see a token waiting on the tweet Task i
 
 ![tweet-token](./img/token-on-tweet.png)
 
-Now it's time to actually build the external worker itself. I'm going to using the [Camunda JavaScript External Task Client](https://github.com/camunda/camunda-external-task-client-js) for this example so you'll need to [install npm](https://www.npmjs.com/get-npm) if you'd like to do this part. 
+Now it's time to actually build the external worker itself. I'm going to using the [Camunda JavaScript External Task Client](https://github.com/camunda/camunda-external-task-client-js) for this example so you'll need to [install npm](https://www.npmjs.com/get-npm) if you'd like to do this part.
 
 Create a new directory in your project ``TweetWorker`` and then open a console window in that folder and enter the following:
 
@@ -296,7 +296,38 @@ If all goes according to plan you should be able to see that the worker has lock
 
 ## Exercise 6: Throwing an Error Event from an External Task
 
-We all know that if you
+:trophy: The goal here is to trigger an error event from the external task which stops the process.
+
+We all know that if social media can't be informed of your actions, you might as well have never performed them. So lets take that into account by adding a feature which would stop the whole process if we can't send out a tweet about our strawberries.
+
+This requires two changes.
+1. Our External task needs to throw a ``BPMN Error`` under certain circumstances
+1. The process needs to catch that error and end the process.
+
+Throwing the BPMN is pretty easy we can trigger it by adding a line to our JavaScript worker.
+
+```JavaScript
+await taskService.handleBpmnError(task, "TwitterDown", "Twitter is down");
+```
+
+Catching the error is going to work differently from the previous error example. In this example we're changing to the scope so that when the error is caught it cancels all other tokens in the process. This will be done using my favorite BPMN symbol the [Event Based Sub process](https://camunda.com/best-practices/building-flexibility-into-bpmn-models/#_event_sub_processes).
+
+We'll add it to the model with an Error start event and then tell it to wait for the ``TwitterDown`` error.
+![errorprop](./img/error-event-prop.png)
+
+Now If the error event is send from the external task it will be caught and the act of catching the error will cancel any other token in the process and the user will be asked to read a book - I personally would recommend [Lafayette In The Somewhat United States by Sarah Vowell](https://www.hive.co.uk/Product/Sarah-Vowell/Lafayette-In-The-Somewhat-United-States/19468181)
+
+The below model illustrates this.
+
+| Active Tokens        |  Completed Tokens           | Canceled Tokens  |
+| -------------------- |:---------------------------:| ----------------:|
+| ![active-token](./img/active-token.png)     | ![completed-token](./img/complete-token.png) |![canceled-token](./img/cancel-token.png) |
+
+
+
+
+![error-history](./img/error-history.png)
+
 
 ## Enjoy your strawberries
 
