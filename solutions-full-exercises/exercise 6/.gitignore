@@ -8,7 +8,13 @@
 *.war
 *.ear
 *.nar
+*.db
 hs_err_pid*
+
+##############################
+## JavaScript
+##############################
+node_modules/
 
 ##############################
 ## Maven
@@ -75,5 +81,3 @@ nb-configuration.xml
 ## OS X
 ##############################
 .DS_Store
-/TweetWorker/node_modules/
-/src/main/resources/camunda-license.txt
