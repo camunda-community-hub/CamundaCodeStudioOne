@@ -4,7 +4,7 @@
 
 <img src="https://img.shields.io/badge/Camunda%20DevRel%20Project-Created%20by%20the%20Camunda%20Developer%20Relations%20team-0Ba7B9">
 
-The goal of this workshop is for me to teach the world what i have learned from my short time growing strawberries. I'll of course be doing this through the magic of Camunda and BPMN. I'll go going through 4 objectives
+The goal of this workshop is for me to teach the world what I have learned from my short time growing strawberries. I'll of course be doing this through the magic of Camunda and BPMN. I'll go going through 4 objectives
 
 Welcome to Camunda's Code studio. These exercises has been designed for an online course. But you can follow the exercises here without attending the online event - just imagine that you hear Niall talking to you. The readme contains the detailed instruction on how to complete the exercises.  In the other folders you find the model solutions as well as the full code solutions. The presentation from the workshop is provided as well.
 
@@ -23,13 +23,13 @@ To make that an even better learning experience Pull request are very welcome!
 :trophy: Goal of exercise number 1 is to create a running Camunda instance with Springboot.
 
 
-Luckily we have the [Camunda BPM Intitializer](https://start.camunda.com/), which will create a plain Camunda Springboot project for us.
+Luckily we have the [Camunda BPM Initializer](https://start.camunda.com/), which will create a plain Camunda Springboot project for us.
 
-![Camunda-BPM-Intitializer-set-up](./img/Camunda-BPM-Intializer.png)
+![Camunda-BPM-Initializer-set-up](./img/Camunda-BPM-Initializer.png)
 
-If you want to create the project manually and understand what the Camunda BPM Intitializer does, this [tutorial](https://docs.camunda.org/get-started/spring-boot/) guides you through it.
+If you want to create the project manually and understand what the Camunda BPM Initializer does, this [tutorial](https://docs.camunda.org/get-started/spring-boot/) guides you through it.
 
-By generating your project you will download a zip file that contains a pom file with the needed dependencies as well as a simple application class in order to start Camunda as a spring boot application. Extract the file and import the project to an IDE of your choice (e.g.: in Eclipse: import -> existing maven project -> select unzipped folder or simply opening the pom.xml file with intellij)
+By generating your project you will download a zip file that contains a pom file with the needed dependencies as well as a simple application class in order to start Camunda as a spring boot application. Extract the file and import the project to an IDE of your choice (e.g.: in Eclipse: import -> existing maven project -> select unzipped folder or simply opening the pom.xml file with IntelliJ)
 
 ![imported Mavenproject](./img/imported-project.png)
 
@@ -39,7 +39,7 @@ Navigate to scr/main/java/com.example.workshop/Application.java. right click on 
 ![Camunda-is-running](./img/Camunda-is-running.png)
 
 
-To ensure that the webapps are working visit http://localhost:8080 and login with the credentials you have create in the Camunda BPM Intializer. The default is:
+To ensure that the webapps are working visit http://localhost:8080 and login with the credentials you have create in the Camunda BPM Initializer. The default is:
 
 ```
 Usrename: demo
@@ -55,14 +55,14 @@ Password: demo
 For this exercise we need the Camunda Modeler. If you don't have it already download it [here](https://camunda.com/download/modeler/)
 
 
-Next, in the project you've created ``scr/main/ressource`` you'll see a file called process.bpmn open that process in the Camunda Modeler. We're going to change this process into something a little more interesting. Specifically something that has been taking up a lot of my time recently. Strawberries.
+Next, in the project you've created ``scr/main/resource`` you'll see a file called process.bpmn open that process in the Camunda Modeler. We're going to change this process into something a little more interesting. Specifically something that has been taking up a lot of my time recently. Strawberries.
 
 ![Strawberries](./img/strawberry-process-one.png)
 
 
 
 :pencil2:
-One import part of keeping strawberries is not killing them. I've found that killing strawberries can be done by either not enough water or too much water. So in this process i can see is the amount of water i give my strawberries going to kill it.
+One important part of keeping strawberries is not killing them. I've found that killing strawberries can be done by either not enough water or too much water. So in this process I can see if the amount of water I give my strawberries going to kill them.
 
 
 Model the process.
@@ -70,13 +70,13 @@ Model the process.
 Save your model.
 
 
-In order to make it run within Camunda we need to add the technical details. That means we need to provide code for the Service task. Three are a number of ways of running client code, but in this case, because i'm using spring boot i'm going to call a Java Class Directly. Which means using implmentation type: ``Delegate Expression`` and adding an expession which will point a java class that i'll write shortly. In this case we'll call it ``#{waterChecker}``
+In order to make it run within Camunda we need to add the technical details. That means we need to provide code for the Service task. Three are a number of ways of running client code, but in this case, because i'm using spring boot i'm going to call a Java Class Directly. Which means using implementation type: ``Delegate Expression`` and adding an expression which will point a java class that i'll write shortly. In this case we'll call it ``#{waterChecker}``
 
 
 ![EventDelegate](./img/implement-EventDelegate.png)
 
 
-After adding the implmentation type to the model it's time i go ahead and write the java class that i intend to use.
+After adding the implementation type to the model it's time I go ahead and write the java class that I intend to use.
 Below is the code itself.
 
 ```java
@@ -111,12 +111,15 @@ public class WaterChecker implements JavaDelegate {
 ```
 
 
-Once you've added the class to your project the engine will find it in runtime and exectue the code. Settting a bunch of variables.
-``waterSuccess`` is a boolean which is ``true`` if you've added enough water and ``strawberryStatus`` is a String in which a user can read the restults of the water they've added in plane english.
+Once you've added the class to your project the engine will find it in runtime and execute the code. Setting a bunch of variables.
+``waterSuccess`` is a boolean which is ``true`` if you've added enough water and ``strawberryStatus`` is a String in which a user can read the results of the water they've added in plane English.
 
 Now it's time to see it in action.
 
-Restart your springboot application and once again naviat to http://localhost:8080/ login as before and you'll be greated by the welcome page
+Restart your springboot application and once again navigate to http://localhost:8080/ login as before and you'll be greeted by the welcome page
+
+:pencil2:
+Note that every time you restart the process, you will have to re-login to the application.
 
 ![welcomePage](./img/welcome-page.png)
 
@@ -128,7 +131,7 @@ Once you've clicked start process you'll able to see a list of processes - in th
 
 ![Start a process two](./img/start-process-one.png)
 
-Clicking on it will bring up the start form - this is where we need to enter the amonut of water that we're going to add to the strawberries. The variable name is ``inchesOfWater`` and this can be entered by clicking on ``Add a variable`` and entering
+Clicking on it will bring up the start form - this is where we need to enter the amount of water that we're going to add to the strawberries. The variable name is ``inchesOfWater`` and this can be entered by clicking on ``Add a variable`` and entering
 
 ```
 Name:   inchesOfWater
@@ -136,7 +139,7 @@ Type:   Integer
 Value:  2
 ```
 
-The screeshot beblow should indicate what you should see.
+The screenshot below should indicate what you should see.
 
 ![Start a process three](./img/start-process-two.png)
 
@@ -153,7 +156,7 @@ After clicking it a filter will be created revealing the user task, at which poi
 
 1. Select the Task
 1. Click ``Claim`` on the Task
-1. Inpect the variables by clicking ``Load Variables`` claim-complete-task.png
+1. Inspect the variables by clicking ``Load Variables`` claim-complete-task.png
 1. Compete the Task.
 
 ![claiming and completing a task](./img/claim-complete-task.png)
@@ -191,7 +194,7 @@ while the sequence flow for ``No`` should read
 
 The expression language used is from Java the Unified Expression Language (UEL). If you want to find an overview and more information you can look [here](https://docs.oracle.com/javaee/5/tutorial/doc/bnahq.html).
 
-Restrating your spring boot applicatoin will create a new veresion of the model and so by following the same procedure of starting the process instance as in the previous step, you should be able to see the ``Try to eat a strawberry!`` user task if you've entered 2 inches of water or ``Go buy some strawberries`` if you have any other number.
+Restarting your spring boot application will create a new version of the model and so by following the same procedure of starting the process instance as in the previous step, you should be able to see the ``Try to eat a strawberry!`` user task if you've entered 2 inches of water or ``Go buy some strawberries`` if you have any other number.
 
 
 **:tada: Congrats now your process can be routed depending the data you get**
@@ -199,7 +202,7 @@ Restrating your spring boot applicatoin will create a new veresion of the model 
 ## Exercise 4: Adding BPMN events to you process
 :trophy: Trigger and Catch a BPMN Error event which will ensure that we water our strawberries too much.
 
-To do this we need to check the amount of water and decided if we should throw an error or not. The error will be then need to be caught by the model. So first things first. I'm going ot add an error event to my model as well as a user task.
+To do this we need to check the amount of water and decided if we should throw an error or not. The error will be then need to be caught by the model. So first things first. I'm going to add an error event to my model as well as a user task.
 
 ![Process with Error](./img/model-with-error-event.png)
 
@@ -212,7 +215,7 @@ The error event needs to  expect a specific Error Code. This can be added via th
 
 ![Error Event details](./img/error-event-details.png)
 
-Now that the model is read to each an error with the code ``TooMuchWater`` i'm going to need to throw the Error event from my code. I can do this by going back to my ``WaterChecker.java`` class and making a small change to the code. If the water is more than 2 inches i want to throw an error.
+Now that the model is read to each an error with the code ``TooMuchWater`` i'm going to need to throw the Error event from my code. I can do this by going back to my ``WaterChecker.java`` class and making a small change to the code. If the water is more than 2 inches I want to throw an error.
 
 ```Java
 
@@ -228,8 +231,8 @@ else if(inchesOfWater == 2){
 }
 
 ```
-After making this change, it's time to re-launch the application and once again start a new instance. this time the variable ``inchesOfWater`` should be ``3``. in this case once we start the instance we should be brought to the ``Enter new amount of water`` user task. Claim the task and then load the variables in order to see and changes the inches of water. You should also be able to see the erorr message that was added via the Java class.
-Change the variable and complete the task to finish the excersise.
+After making this change, it's time to re-launch the application and once again start a new instance. this time the variable ``inchesOfWater`` should be ``3``. in this case once we start the instance we should be brought to the ``Enter new amount of water`` user task. Claim the task and then load the variables in order to see and changes the inches of water. You should also be able to see the error message that was added via the Java class.
+Change the variable and complete the task to finish the exercise.
 
 **:tada: Congrats you've triggered an error event!**
 
