@@ -19,7 +19,7 @@ To make that an even better learning experience Pull request are very welcome!
 
 
 
-## Exercise 1: Set up a Camunda Springboot appliaction
+## Exercise 1: Set up a Camunda Springboot application
 :trophy: Goal of exercise number 1 is to create a running Camunda instance with Springboot.
 
 
