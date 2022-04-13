@@ -1,4 +1,4 @@
-# Camunda Code Studio
+# Camunda 7 Code Studio
 
 <img src="https://img.shields.io/badge/Tutorial%20Reference%20Project-Tutorials%20for%20getting%20started%20with%20Camunda-%2338A3E1)">
 
